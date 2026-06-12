@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Journey — Julia van Dijk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --text: #1c1b1a;
+      --text-muted: #62605d;
+      --accent: #c45c6a;
+      --accent-soft: #fdf0f2;
+      --accent-dark: #9a3d4a;
+      --border: #ece8e3;
+      --green: #5a9e6f;
+      --amber: #d39a3c;
+      --red: #cf6b5e;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(40,30,30,.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 15px;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 2.2rem 1.5rem 4rem; }
+
+    /* HEADER */
+    .back-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      color: var(--accent); text-decoration: none;
+      font-size: .85rem; font-weight: 600; margin-bottom: .9rem;
+    }
+    .back-link:hover { color: var(--accent-dark); }
+    .eyebrow {
+      text-transform: uppercase; letter-spacing: .12em;
+      font-size: .72rem; font-weight: 600; color: var(--accent); margin-bottom: .4rem;
+    }
+    .page-head h1 { font-family: 'Fraunces', serif; font-size: 2.3rem; line-height: 1.05; margin-bottom: .5rem; }
+
+    .head-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; }
+    .person-bar {
+      display: flex; align-items: center; gap: .8rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: .5rem 1.1rem .5rem .5rem; box-shadow: var(--shadow);
+    }
+    .person-bar img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
+    .person-bar .pb-name { font-weight: 700; font-size: .95rem; }
+    .person-bar .pb-sub { font-size: .8rem; color: var(--text-muted); }
+
+    /* GOAL */
+    .goal-box {
+      display: flex; gap: .9rem; align-items: flex-start;
+      background: var(--accent-soft); border: 1px solid #f3d9dd;
+      border-radius: 14px; padding: 1rem 1.3rem; margin: 1.4rem 0 2rem;
+    }
+    .goal-box .gi { font-size: 1.4rem; line-height: 1; }
+    .goal-box p { font-size: .96rem; }
+    .goal-box strong { color: var(--accent-dark); }
+
+    /* EMOTION CURVE */
+    .curve-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.2rem 1.4rem .8rem; box-shadow: var(--shadow); margin-bottom: 1.4rem;
+    }
+    .curve-card h2 { font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: .6rem; }
+    .curve-svg { width: 100%; height: auto; display: block; }
+
+    /* JOURNEY MAP */
+    .map {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: .9rem;
+    }
+    .stage {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .stage-top {
+      padding: 1rem 1rem .8rem; text-align: center;
+      border-bottom: 1px solid var(--border); position: relative;
+    }
+    .stage.green .stage-top { background: #eef6f1; }
+    .stage.amber .stage-top { background: #fbf4e7; }
+    .stage.red .stage-top { background: #fbece9; }
+    .stage-num {
+      position: absolute; top: .6rem; left: .6rem;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); color: #fff; font-size: .7rem; font-weight: 700;
+      display: grid; place-items: center;
+    }
+    .stage-emoji { font-size: 2rem; line-height: 1; }
+    .stage-time { font-size: .72rem; font-weight: 700; color: var(--accent-dark); letter-spacing: .04em; margin-top: .4rem; }
+    .stage-title { font-weight: 700; font-size: .98rem; margin-top: .1rem; }
+    .stage-mood { font-size: .78rem; color: var(--text-muted); margin-top: .35rem; font-style: italic; }
+
+    .stage-body { padding: .9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: .85rem; flex: 1; }
+    .block .bl-label {
+      font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-muted); font-weight: 700; margin-bottom: .3rem;
+      display: flex; align-items: center; gap: .3rem;
+    }
+    .block p { font-size: .86rem; }
+    .quote {
+      border-left: 3px solid var(--accent); background: var(--accent-soft);
+      padding: .45rem .6rem; border-radius: 0 8px 8px 0; font-style: italic; font-size: .85rem;
+    }
+    .pain p { color: #9a4438; }
+    .pain .bl-label { color: var(--red); }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 1.1rem; margin-top: 1.2rem; font-size: .8rem; color: var(--text-muted); }
+    .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot.green { background: var(--green); }
+    .dot.amber { background: var(--amber); }
+    .dot.red { background: var(--red); }
+
+    .takeaway {
+      margin-top: 1.8rem; background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent); border-radius: 14px; padding: 1.2rem 1.5rem; box-shadow: var(--shadow);
+    }
+    .takeaway h2 { font-family: 'Fraunces', serif; font-size: 1.15rem; margin-bottom: .4rem; }
+    .takeaway p { font-size: .94rem; }
+
+    @media (max-width: 900px) {
+      .map { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .map { grid-template-columns: 1fr; }
+      .page-head h1 { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="page-head">
+      <div class="eyebrow">Customer Journey · Gymtrack</div>
+      <div class="head-row">
+        <h1>Een trainingsdag van Julia</h1>
+        <div class="person-bar">
+          <img src="assets/julia-portret.png" alt="Julia van Dijk">
+          <div>
+            <div class="pb-name">Julia van Dijk</div>
+            <div class="pb-sub">23 · Tilburg · 1,5 jaar krachttraining</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="goal-box">
+      <span class="gi">🎯</span>
+      <p><strong>Doel van deze journey:</strong> begrijpen hoe één doordeweekse dag mét training voor Julia verloopt — en op welke momenten haar motivatie daalt of fitness wrijving oplevert. Zo wordt zichtbaar wáár haar behoefte het grootst is.</p>
+    </div>
+
+    <!-- EMOTION CURVE -->
+    <div class="curve-card">
+      <h2>Stemming door de dag</h2>
+      <svg class="curve-svg" viewBox="0 0 1000 210" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Stemmingscurve van Julia door de dag">
+        <defs>
+          <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c45c6a" stop-opacity="0.20"/>
+            <stop offset="100%" stop-color="#c45c6a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="40" y1="30" x2="40" y2="170" stroke="#ece8e3" stroke-width="1"/>
+        <line x1="40" y1="170" x2="970" y2="170" stroke="#ece8e3" stroke-width="1"/>
+        <path d="M100,93 L300,114 L500,107 L700,86 L900,58 L900,170 L100,170 Z" fill="url(#fill)"/>
+        <polyline points="100,93 300,114 500,107 700,86 900,58"
+          fill="none" stroke="#c45c6a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <g font-family="DM Sans" font-size="22">
+          <circle cx="100" cy="93" r="17" fill="#fff" stroke="#d39a3c" stroke-width="3"/>
+          <text x="100" y="101" text-anchor="middle">😴</text>
+          <circle cx="300" cy="114" r="17" fill="#fff" stroke="#cf6b5e" stroke-width="3"/>
+          <text x="300" y="122" text-anchor="middle">😕</text>
+          <circle cx="500" cy="107" r="17" fill="#fff" stroke="#d39a3c" stroke-width="3"/>
+          <text x="500" y="115" text-anchor="middle">😟</text>
+          <circle cx="700" cy="86" r="17" fill="#fff" stroke="#d39a3c" stroke-width="3"/>
+          <text x="700" y="94" text-anchor="middle">😬</text>
+          <circle cx="900" cy="58" r="17" fill="#fff" stroke="#5a9e6f" stroke-width="3"/>
+          <text x="900" y="66" text-anchor="middle">😌</text>
+        </g>
+        <g font-family="DM Sans" font-size="12.5" fill="#62605d" font-weight="600" text-anchor="middle">
+          <text x="100" y="197">07:00 Ochtend</text>
+          <text x="300" y="197">13:00 Overdag</text>
+          <text x="500" y="197">18:30 Naar gym</text>
+          <text x="700" y="197">19:00 Training</text>
+          <text x="900" y="197">21:00 Thuis na</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- JOURNEY MAP -->
+    <div class="map">
+
+      <!-- STAGE 1 -->
+      <div class="stage amber">
+        <div class="stage-top">
+          <div class="stage-num">1</div>
+          <div class="stage-emoji">🌅</div>
+          <div class="stage-time">07:00 · OCHTEND</div>
+          <div class="stage-title">Opstaan</div>
+          <div class="stage-mood">Sloom, maar oké</div>
+        </div>
+        <div class="stage-body">
+          <div class="block">
+            <div class="bl-label">🎬 Wat doet ze</div>
+            <p>Snoozt, checkt haar telefoon en legt alvast haar gymkleding klaar voor vanavond.</p>
+          </div>
+          <div class="block">
+            <div class="bl-label">💭 Denkt &amp; voelt</div>
+            <div class="quote">"Als ik het nu plan, ga ik vanavond ook echt."</div>
+          </div>
+          <div class="block pain">
+            <div class="bl-label">⚠️ Frictie</div>
+            <p>Moet zichzelf 's ochtends al motiveren voor de avond.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 2 -->
+      <div class="stage red">
+        <div class="stage-top">
+          <div class="stage-num">2</div>
+          <div class="stage-emoji">📚</div>
+          <div class="stage-time">13:00 · OVERDAG</div>
+          <div class="stage-title">Studie &amp; werk</div>
+          <div class="stage-mood">Energie zakt weg</div>
+        </div>
+        <div class="stage-body">
+          <div class="block">
+            <div class="bl-label">🎬 Wat doet ze</div>
+            <p>College, daarna winkeldienst. In een pauze ziet ze fitnesscontent op TikTok.</p>
+          </div>
+          <div class="block">
+            <div class="bl-label">💭 Denkt &amp; voelt</div>
+            <div class="quote">"Ik ben best moe… ga ik straks wel echt?"</div>
+          </div>
+          <div class="block pain">
+            <div class="bl-label">⚠️ Frictie</div>
+            <p>Energiedip en drukte; de gym begint als een 'moeten' te voelen.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3 -->
+      <div class="stage amber">
+        <div class="stage-top">
+          <div class="stage-num">3</div>
+          <div class="stage-emoji">🚲</div>
+          <div class="stage-time">18:30 · NAAR DE GYM</div>
+          <div class="stage-title">Aankomst</div>
+          <div class="stage-mood">Onzeker &amp; gedoe</div>
+        </div>
+        <div class="stage-body">
+          <div class="block">
+            <div class="bl-label">🎬 Wat doet ze</div>
+            <p>Fietst naar Basic-Fit en zoekt haar schema bij elkaar in Notities en screenshots.</p>
+          </div>
+          <div class="block">
+            <div class="bl-label">💭 Denkt &amp; voelt</div>
+            <div class="quote">"Waar stond mijn schema? Hoeveel kg deed ik vorige week?"</div>
+          </div>
+          <div class="block pain">
+            <div class="bl-label">⚠️ Frictie</div>
+            <p>Schema verspreid en lastig te vinden; onzeker over vorige gewichten.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 4 -->
+      <div class="stage amber">
+        <div class="stage-top">
+          <div class="stage-num">4</div>
+          <div class="stage-emoji">🏋️</div>
+          <div class="stage-time">19:00 · TRAINING</div>
+          <div class="stage-title">De workout</div>
+          <div class="stage-mood">Focus, met dips</div>
+        </div>
+        <div class="stage-body">
+          <div class="block">
+            <div class="bl-label">🎬 Wat doet ze</div>
+            <p>Traint haar split, noteert gewichten en scrollt social media tussen de sets.</p>
+          </div>
+          <div class="block">
+            <div class="bl-label">💭 Denkt &amp; voelt</div>
+            <div class="quote">"Even doorzetten." Trots bij een goede set, schuld bij te lang scrollen.</div>
+          </div>
+          <div class="block pain">
+            <div class="bl-label">⚠️ Frictie</div>
+            <p>Telefoon leidt af, invoeren met vieze handen, vergelijking met anderen.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 5 -->
+      <div class="stage green">
+        <div class="stage-top">
+          <div class="stage-num">5</div>
+          <div class="stage-emoji">😌</div>
+          <div class="stage-time">21:00 · THUIS NA</div>
+          <div class="stage-title">Terugblik</div>
+          <div class="stage-mood">Voldaan &amp; rustig — piek</div>
+        </div>
+        <div class="stage-body">
+          <div class="block">
+            <div class="bl-label">🎬 Wat doet ze</div>
+            <p>Eet, doucht, vertelt kort over haar training en kijkt een serie met haar vriend.</p>
+          </div>
+          <div class="block">
+            <div class="bl-label">💭 Denkt &amp; voelt</div>
+            <div class="quote">"Goed dat ik ben gegaan — mijn hoofd is nu rustig."</div>
+          </div>
+          <div class="block pain">
+            <div class="bl-label">⚠️ Frictie</div>
+            <p>Twijfel of ze alles goed noteerde; geen zicht of ze écht vooruitgaat.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="legend">
+      <span><span class="dot green"></span> Positief / energiek</span>
+      <span><span class="dot amber"></span> Wisselend / twijfel</span>
+      <span><span class="dot red"></span> Onzeker / laag</span>
+    </div>
+
+    <div class="takeaway">
+      <h2>Wat opvalt</h2>
+      <p>Julia's motivatie is het laagst <strong>vlak vóór de training</strong> (vermoeidheid overdag + gedoe met haar schema) en het hoogst <strong>ná de training</strong>. De grootste wrijving zit in <strong>het terugvinden van haar schema</strong>, <strong>afleiding tijdens het trainen</strong> en <strong>het ontbreken van zicht op progressie</strong>. Wie Julia over de streep wil trekken, moet juist die drempelmomenten makkelijker maken.</p>
+    </div>
+
+  </div>
+</body>
+</html>
